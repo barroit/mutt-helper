@@ -1,0 +1,13 @@
+mutt-helper
+===========
+
+This repo tracks mutt helpers. Currently, it handles:
+
+	authorization code fetching
+
+	user switching
+
+Helpers use custom scripts from barroit/enit repo, you must init these scripts
+in that repo by running:
+
+	./init.sh which-* lib39
