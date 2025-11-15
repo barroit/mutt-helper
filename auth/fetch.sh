@@ -144,4 +144,5 @@ cat <<EOF | gpg -er $uid >$uid.token
 token	$token_access
 refresh	$token_refresh
 expire	$token_expire
+server	$server
 EOF
