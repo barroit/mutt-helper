@@ -48,9 +48,10 @@ client=$server.client
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
 
-info=$(gpg -dqr $uid $client)
-id=$(printf '%s' "$info" | grep "^id$TAB" | cut -f2)
-sec=$(printf '%s' "$info" | grep "^sec$TAB" | cut -f2)
+gpg -dqr $uid $client >.$client-$$
+
+id=$(grep "^id$TAB" .$client-$$ | cut -f2)
+sec=$(grep "^sec$TAB" .$client-$$ | cut -f2)
 
 [ -n "$id" ] || die "missing 'id' in $client"
 
