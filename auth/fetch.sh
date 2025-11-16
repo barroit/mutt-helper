@@ -75,12 +75,6 @@ code_challenge=$challenge&
 code_challenge_method=S256&
 EOF
 
-cat <<'EOF' >.ignore-$$
-code
-token
-scope
-EOF
-
 blk39_keys $param | grep ^code_ | sed 's/^code_//' | while read key; do
 	printf '%s=%s&\n' $key $(blk39_find code_$key $param) >>.code-url-$$
 done
