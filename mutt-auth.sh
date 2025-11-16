@@ -9,8 +9,12 @@ command=$1
 prefix=$(which-absdir $0)/auth
 script=$prefix/$command.sh
 
-test -n "$command" || die 'missing command'
-test -x $script || die "unknown command '$command'"
+[ -n "$command" ] || die 'missing command'
+[ -f $script ] || die "unknown command '$command'"
+
+trap 'rm -f .*-$$' EXIT
+
+cd $HOME/.mutt
 
 shift
 . $script

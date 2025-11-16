@@ -32,10 +32,6 @@
 #	blob/master/contrib/mutt_oauth2.py.README
 #
 
-trap 'rm -f .*-$$' EXIT
-
-cd $HOME/.mutt
-
 server=$1
 uid=$2
 
@@ -55,7 +51,7 @@ sec=$(grep "^sec$TAB" .$client-$$ | cut -f2)
 
 [ -n "$id" ] || die "missing 'id' in $client"
 
-port=$(python3 $prefix/pickport.py)
+port=$($prefix/pickport.py)
 redirect=http://localhost:$port
 state=$(openssl rand -hex 16)
 
@@ -88,7 +84,7 @@ done
 open $(tr -d '\n' <.code-url-$$ | sed 's/&$/\n/') >/dev/null
 info 'auth url opened in browser, waiting for user consent...'
 
-cat <<'EOF' | node $prefix/catport.js $port 'text/html; charset=utf-8' >.code-$$
+cat <<'EOF' | $prefix/catport.js $port 'text/html; charset=utf-8' >.code-$$
 <html>
   <head>
     <title>^o^</title>
