@@ -127,22 +127,8 @@ done
 tr -d '\n' <.token-data-in-$$ | sed 's/&$//' >.token-data-$$
 
 curl -s -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
-     --data-binary @.token-data-$$ $(blk39_find token $param) >.token-$$
+     --data-binary @.token-data-$$ $(blk39_find token $param) >.token-in-$$
 
-token_error=$(jq -r '.error // ""' <.token-$$)
-token_error_mesg=$(jq -r '.error_description // ""' <.token-$$)
+jq ". + { \"server\": \"$server\" }" .token-in-$$ >.token-$$
 
-[ -n "$token_error" ] && [ -z "$token_error_mesg" ] && die "$token_error"
-[ -n "$token_error" ] && die "$token_error, $token_error_mesg"
-
-token_access=$(jq -r .access_token <.token-$$)
-token_refresh=$(jq -r .refresh_token <.token-$$)
-token_expire=$(jq -r .expires_in <.token-$$)
-token_expire=$(( $(awk 'BEGIN { print systime() }') + token_expire ))
-
-cat <<EOF | gpg -er $uid >$uid.token
-access	$token_access
-refresh	$token_refresh
-expire	$token_expire
-server	$server
-EOF
+$entry dump $uid <.token-$$

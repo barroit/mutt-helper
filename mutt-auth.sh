@@ -5,6 +5,7 @@ set -e
 
 . $(which-lib39)
 
+entry=$(realpath $(command -v $0))
 command=$1
 prefix=$(which-absdir $0)/auth
 script=$prefix/$command.sh
