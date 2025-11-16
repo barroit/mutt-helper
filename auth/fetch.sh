@@ -137,7 +137,7 @@ token_expire=$(jq -r .expires_in <.token-$$)
 token_expire=$(( $(awk 'BEGIN { print systime() }') + token_expire ))
 
 cat <<EOF | gpg -er $uid >$uid.token
-token	$token_access
+access	$token_access
 refresh	$token_refresh
 expire	$token_expire
 server	$server
