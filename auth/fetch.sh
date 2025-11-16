@@ -44,6 +44,10 @@ client=$server.client
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
 
+! blk39_has code $param && die "missing code in '$param'"
+! blk39_has token $param && die "missing token in '$param'"
+! blk39_has scope $param && die "missing scope in '$param'"
+
 gpg -dqr $uid $client >.$client-$$
 
 id=$(grep "^id$TAB" .$client-$$ | cut -f2)
