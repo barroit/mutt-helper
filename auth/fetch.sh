@@ -2,12 +2,12 @@
 #
 #	mutt-auth fetch <server> <uid>
 #
-# Fetch token from <server>'s oauth 2 endpoint and store it in token.<uid> under
+# Fetch token from <server>'s oauth 2 endpoint and store it in token/<uid> under
 # $HOME/.mutt. GnuPG is used to encrypt this token file. You must have a uid
 # matches <uid> in gpg keys, as this script uses that to identify which key to
 # use for encryption.
 #
-# This script requires $HOME/.mutt/client.<uid>. This file must be encrypted by
+# This script requires $HOME/.mutt/client/<uid>. This file must be encrypted by
 # GnuPG, and your <uid> key has correct [E] subkey to decrypt it. Fill it with
 # id, optional sec if your server requires one, and separate columns with tab:
 #
@@ -38,7 +38,7 @@ uid=$2
 [ -n "$uid" ] || die 'missing uid'
 
 param=param.$server
-client=client.$uid
+client=client/$uid
 
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
@@ -47,10 +47,10 @@ client=client.$uid
 ! blk39_has token $param && die "missing token in '$param'"
 ! blk39_has scope $param && die "missing scope in '$param'"
 
-gpg -dqr $uid $client >.$client-$$
+gpg -dqr $uid $client >.client-$$
 
-id=$(grep "^id$TAB" .$client-$$ | cut -f2)
-sec=$(grep "^sec$TAB" .$client-$$ | cut -f2)
+id=$(grep "^id$TAB" .client-$$ | cut -f2)
+sec=$(grep "^sec$TAB" .client-$$ | cut -f2)
 
 [ -n "$id" ] || die "missing 'id' in $client"
 

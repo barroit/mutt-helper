@@ -2,11 +2,11 @@
 #
 #	mutt-auth refresh <uid>
 #
-# Fetch new token from server. Server is read from $HOME/.mutt/token.<uid>
+# Fetch new token from server. Server is read from $HOME/.mutt/token/<uid>
 #
 
 uid=$1
-token=token.$uid
+token=token/$uid
 
 [ -n "$uid" ] || die 'missing uid'
 [ -s $token ] || die "no token found at '$token'"
@@ -19,17 +19,17 @@ refresh=$(grep "^refresh$TAB" .token-old-$$ | cut -f2)
 [ -z "$server" ] || [ -z "$refresh" ] && die "broken token file '$token'"
 
 param=param.$server
-client=client.$uid
+client=client/$uid
 
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
 
 ! blk39_has token $param && die "missing token in '$param'"
 
-gpg -dqr $uid $client >.$client-$$
+gpg -dqr $uid $client >.client-$$
 
-id=$(grep "^id$TAB" .$client-$$ | cut -f2)
-sec=$(grep "^sec$TAB" .$client-$$ | cut -f2)
+id=$(grep "^id$TAB" .client-$$ | cut -f2)
+sec=$(grep "^sec$TAB" .client-$$ | cut -f2)
 
 [ -n "$id" ] || die "missing 'id' in $client"
 

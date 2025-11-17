@@ -2,7 +2,7 @@
 #
 #	mutt-auth dump <uid>
 #
-# Read json object from stdin and merge it into $HOME/.mutt/token.<uid>. Update
+# Read json object from stdin and merge it into $HOME/.mutt/token/<uid>. Update
 # the following fields in token file:
 #
 #	access_token
@@ -15,7 +15,7 @@
 cat >.token-$$
 
 uid=$1
-token=token.$uid
+token=token/$uid
 
 [ -n "$uid" ] || die 'missing uid'
 
@@ -38,6 +38,8 @@ fi
 token_refresh=${token_refresh:-$(grep "^refresh$TAB" .token-old-$$ | cut -f2)}
 token_server=${token_server:-$(grep "^server$TAB" .token-old-$$ | cut -f2)}
 token_expire=$(( $(awk 'BEGIN { print systime() }') + token_expire ))
+
+mkdir -p $(dirname $token)
 
 cat <<EOF | gpg -er $uid >$token
 access	$token_access

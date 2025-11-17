@@ -3,18 +3,18 @@
 #	mutt-auth cat <uid>
 #
 # Print token to stdout, refresh it if it's expired. Token is read from
-# $HOME/.mutt/token.<uid>.
+# $HOME/.mutt/token/<uid>.
 #
 
 uid=$1
-token=token.$uid
+token=token/$uid
 
 [ -n "$uid" ] || die 'missing uid'
 [ -s $token ] || die "no token found at '$token'"
 
-gpg -dqr $uid $token >.$token-$$
+gpg -dqr $uid $token >.token-$$
 
-expire=$(grep "^expire$TAB" .$token-$$ | cut -f2)
+expire=$(grep "^expire$TAB" .token-$$ | cut -f2)
 expire=$(( expire - 60 ))
 now=$(awk 'BEGIN { print systime() }')
 
@@ -24,4 +24,4 @@ if [ $now -gt $expire ]; then
 	exit
 fi
 
-grep "^access$TAB" .$token-$$ | cut -f2
+grep "^access$TAB" .token-$$ | cut -f2
