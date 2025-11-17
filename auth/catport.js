@@ -24,22 +24,20 @@ let raise
 let req
 let res
 
-function handler(req_in, res_in)
+const server = createServer((req_in, res_in) =>
 {
 	req = req_in
 	res = res_in
-
 	raise()
-}
+})
 
-const server = createServer(handler)
-
-server.listen(port, '127.0.0.1')
-
-await new Promise(cb => raise = cb)
+await new Promise(cb =>
+{
+	raise = cb
+	server.listen(port, '127.0.0.1')
+})
 
 res.statusCode = 200
-
 res.setHeader('Connection', 'close')
 
 if (argv.length == 4) {
