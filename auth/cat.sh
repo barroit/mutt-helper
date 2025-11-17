@@ -3,11 +3,11 @@
 #	mutt-auth cat <uid>
 #
 # Print token to stdout, refresh it if it's expired. Token is read from
-# $HOME/.mutt/<uid>.token.
+# $HOME/.mutt/token.<uid>.
 #
 
 uid=$1
-token=$uid.token
+token=token.$uid
 
 [ -n "$uid" ] || die 'missing uid'
 [ -s $token ] || die "no token found at '$token'"

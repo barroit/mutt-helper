@@ -2,7 +2,7 @@
 #
 #	mutt-auth dump <uid>
 #
-# Read json object from stdin and merge it into $HOME/.mutt/<uid>.token. Update
+# Read json object from stdin and merge it into $HOME/.mutt/token.<uid>. Update
 # the following fields in token file:
 #
 #	access_token
@@ -15,7 +15,7 @@
 cat >.token-$$
 
 uid=$1
-token=$uid.token
+token=token.$uid
 
 [ -n "$uid" ] || die 'missing uid'
 

@@ -2,12 +2,12 @@
 #
 #	mutt-auth fetch <server> <uid>
 #
-# Fetch token from <server>'s oauth 2 endpoint and store it in <uid>.token under
+# Fetch token from <server>'s oauth 2 endpoint and store it in token.<uid> under
 # $HOME/.mutt. GnuPG is used to encrypt this token file. You must have a uid
 # matches <uid> in gpg keys, as this script uses that to identify which key to
 # use for encryption.
 #
-# This script requires $HOME/.mutt/<server>.client. This file must be encrypted
+# This script requires $HOME/.mutt/client.<server>. This file must be encrypted
 # by GnuPG, and your <uid> key has correct [E] subkey to decrypt it. Fill it
 # with id, optional sec if your server requires one, and separate columns with
 # tab:
@@ -21,10 +21,10 @@
 #	Secret of OAuth 2.0 client. Public clients don't need this, but google
 #	requires it regardless of client type.
 #
-# It also requires <server>.param, this file stores endpoint parameters of
+# It also requires param.<server>, this file stores endpoint parameters of
 # server. Example for Google server:
 #
-#	https://github.com/barroit/etc/blob/master/mutt/google.param
+#	https://github.com/barroit/etc/blob/master/mutt/param.google
 #
 # Client creation guide:
 #
@@ -38,8 +38,8 @@ uid=$2
 [ -n "$server" ] || die 'missing server'
 [ -n "$uid" ] || die 'missing uid'
 
-param=$server.param
-client=$server.client
+param=param.$server
+client=client.$server
 
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
