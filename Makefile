@@ -11,7 +11,7 @@ $(prefix):
 
 install: $(prefix)
 	set -e && \
-	find . -name *.sh -exec realpath {} \; | while read target; do \
+	find . -name 'mutt-*.sh' -exec realpath {} \; | while read target; do \
 		ln -sf $$target $(prefix)/; \
 		printf '%s -> %s\n' $(prefix)/$$(basename $$target) $$target; \
 	done
