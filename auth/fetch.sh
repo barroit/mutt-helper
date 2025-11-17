@@ -7,10 +7,9 @@
 # matches <uid> in gpg keys, as this script uses that to identify which key to
 # use for encryption.
 #
-# This script requires $HOME/.mutt/client.<server>. This file must be encrypted
-# by GnuPG, and your <uid> key has correct [E] subkey to decrypt it. Fill it
-# with id, optional sec if your server requires one, and separate columns with
-# tab:
+# This script requires $HOME/.mutt/client.<uid>. This file must be encrypted by
+# GnuPG, and your <uid> key has correct [E] subkey to decrypt it. Fill it with
+# id, optional sec if your server requires one, and separate columns with tab:
 #
 #	id	wvX6wO17Ow71-AwphnnPn6LZg377ALhwJn....apps.googleusercontent.com
 #	sec	9S4aV6-x-O6A1nvQKov0nSa7h9pn0P96aZK
@@ -39,7 +38,7 @@ uid=$2
 [ -n "$uid" ] || die 'missing uid'
 
 param=param.$server
-client=client.$server
+client=client.$uid
 
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"

@@ -19,7 +19,7 @@ refresh=$(grep "^refresh$TAB" .token-old-$$ | cut -f2)
 [ -z "$server" ] || [ -z "$refresh" ] && die "broken token file '$token'"
 
 param=param.$server
-client=client.$server
+client=client.$uid
 
 [ -s $param ] || die "missing '$param'"
 [ -s $client ] || die "missing '$client'"
