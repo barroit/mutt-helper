@@ -16,7 +16,7 @@ gpg -dqr $uid $token >.token-$$
 
 expire=$(grep "^expire$TAB" .token-$$ | cut -f2)
 expire=$(( expire - 60 ))
-now=$(awk 'BEGIN { print systime() }')
+now=$(perl -E 'say time()')
 
 if [ $now -gt $expire ]; then
 	$entry refresh $uid

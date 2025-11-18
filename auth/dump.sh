@@ -37,7 +37,7 @@ fi
 
 token_refresh=${token_refresh:-$(grep "^refresh$TAB" .token-old-$$ | cut -f2)}
 token_server=${token_server:-$(grep "^server$TAB" .token-old-$$ | cut -f2)}
-token_expire=$(( $(awk 'BEGIN { print systime() }') + token_expire ))
+token_expire=$(( $(perl -E 'say time()') + token_expire ))
 
 mkdir -p $(dirname $token)
 
