@@ -7,7 +7,7 @@ prefix ?= $(HOME)/.local/bin
 install:
 
 $(prefix):
-	mkdir $(prefix)
+	mkdir -p $(prefix)
 
 install: $(prefix)
 	set -e && \
